@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+</head>
+<body>
+<div style="position:relative;">
+ <div id="gimenu" style="float:right;width:180px;"></div>
+ <div id="gimgs" style="margin:2px 200px 2px 2px">
+  <img src=" {{url_for('send_image', filename='0005_3.jpg')}}" alt="Mini Gallery autumn picture 1" onclick="window.open(this.src)" width="100" height="100">
+  <img src=" {{url_for('send_image', filename='0005_3.jpg')}}" onclick="window.open(this.src)" width="100" height="100">
+ </div>
+ <br style="clear:both;"/>
+</div>
+<script type="text/javascript"><!--
+{% for image_name in image_names %}
+var gimgs = {
+  "Scanned Photos": [{{url_for('send_image', filename='0005_3.jpg')}}, {{url_for('send_image', filename='0005_3.jpg')}}],
+  "Memes and Cartoons": ['images/0005_3.jpg', 'images/0005_3.jpg'],
+  "Greetings": ['images/0005_3.jpg', 'images/0005_3.jpg'],
+  "Miscellaneous": ['images/0005_3.jpg', 'images/0005_3.jpg']
+};
+{% endfor %}
+// Object for the group of images
+var setImgs = new Object();
+ // create and return the menu with image categories
+ setImgs.getMenu = function(){
+   // traverse "gimgs" object, gets and create UL menu with category lists
+   var re = '<ul>';
+   for(var gictg in gimgs) {
+     re += '<li style="cursor:pointer;text-decoration:underline;" onclick="setImgs.getImgs(\''+ gictg+ '\')">'+ gictg+ '</li>';
+   }
+
+   return re+ '</ul>';
+ }
+
+ // traverse the category from "gimgs" object, indicated in gictg parameter, and display the images in #setimgs
+ setImgs.getImgs = function(gictg) {
+   var nrim = gimgs[gictg].length;
+   var re = '';
+   for(var i=0; i<nrim; i++) {
+     re += ' <img src="'+ gimgs[gictg][i]+ '" onclick="window.open(this.src)" height="100" />';
+   }
+   document.getElementById('gimgs').innerHTML = re;
+ }
+
+// adds in #gimenu the menu returned by getMenu() method
+document.getElementById('gimenu').innerHTML = setImgs.getMenu();
+</script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
